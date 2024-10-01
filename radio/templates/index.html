@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Mp3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Bem-vindo à Conversor Mp3</h1>
+    
+    <p>Encontre suas músicas favoritas:</p>
+    
+    <input type="text" id="searchInput" placeholder="Buscar músicas..." oninput="filterMusic()">
+
+    <h2>Músicas</h2>
+
+    <ul id="musicList">
+        {% for music in music_files %}
+            <li><a href="#" class="play-music" data-index="{{ loop.index0 }}" data-src="/play/{{ music }}">{{ music[:-4] }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <form action="/download" method="POST">
+        <label for="youtubeURL">Insira o link do YouTube:</label>
+        <input class="input" type="text" id="youtubeURL" name="youtubeURL" placeholder="https://www.youtube.com/watch?v=..." required>
+        <button type="submit">Baixar</button>
+    </form>
+
+    
+    <div id="carousel" >Música em Reprodução
+        <div class="carousel-item" id="currentTrack">
+            <h3 id="trackTitle">Nenhuma música está tocando</h3>
+        </div>
+    </div>
+
+    <audio controls id="audioPlayer">
+        <source id="audioSource" src="" type="audio/mpeg" controls controlsList="nodownload">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioSource = document.getElementById('audioSource');
+        const musicList = document.getElementById('musicList');
+        const trackTitle = document.getElementById('trackTitle');
+        const searchInput = document.getElementById('searchInput');
+        let currentIndex = -1;
+        let musicFiles = [];
+        let updateInterval;
+
+        function updateMusicList() {
+            fetch('/music-files')
+                .then(response => response.json())
+                .then(files => {
+                    musicFiles = files;
+                    renderMusicList(musicFiles);
+                    if (musicFiles.length > 0 && currentIndex === -1) {
+                        currentIndex = 0;
+                        playMusic(currentIndex);
+                    }
+                })
+                .catch(error => console.error('Erro ao atualizar a lista de músicas:', error));
+        }
+
+        function renderMusicList(files) {
+            musicList.innerHTML = '';
+            files.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" class="play-music" data-src="/play/${file}">${file.slice(0, -4)}</a>`;
+                musicList.appendChild(li);
+    });
+
+    const links = document.querySelectorAll('.play-music');
+    links.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const src = link.getAttribute('data-src');
+            const indexInOriginal = musicFiles.indexOf(link.textContent + ".mp3"); // Ajuste para pegar o arquivo correto
+            currentIndex = indexInOriginal; // Atualiza o índice atual com base na lista original
+            playMusic(currentIndex);
+        });
+    });
+
+    }
+
+
+        function filterMusic() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredMusic = musicFiles.filter(file => file.toLowerCase().includes(searchTerm));
+    renderMusicList(filteredMusic);
+    
+    if (currentIndex >= 0 && currentIndex < musicFiles.length) {
+        trackTitle.textContent = musicFiles[currentIndex].slice(0, -4); 
+    } else {
+        trackTitle.textContent = "Nenhuma música está tocando"; 
+    }
+
+    if (searchTerm) {
+        clearInterval(updateInterval); 
+    } else {
+        startUpdateInterval(); 
+    }
+    
+    if (filteredMusic.length === 0 && currentIndex === -1) {
+        trackTitle.textContent = "Nenhuma música está tocando";
+    }
+}
+
+        function playMusic(index) {
+            if (index >= 0 && index < musicFiles.length) {
+                const audioUrl = `/play/${musicFiles[index]}`;
+                audioSource.src = audioUrl;
+                audioPlayer.load();
+                audioPlayer.play();
+                trackTitle.textContent = musicFiles[index].slice(0, -4);
+            }
+        }
+
+        audioPlayer.addEventListener('ended', () => {
+            currentIndex++;
+            if (currentIndex < musicFiles.length) {
+                playMusic(currentIndex);
+            } else {
+                currentIndex = 0;
+                playMusic(currentIndex);
+            }
+        });
+
+        function startUpdateInterval() {
+            updateMusicList();
+            updateInterval = setInterval(updateMusicList, 5000); // Inicia o intervalo
+        }
+
+        startUpdateInterval(); // Inicia o intervalo ao carregar a página
+
+    </script>
+</body>
+</html>

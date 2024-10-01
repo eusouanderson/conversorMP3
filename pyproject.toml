@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "radio online 1-0"
+version = "0.1.0"
+description = ""
+authors = ["Anderson Rodrigues <eusouanderson@outlook.com>"]
+readme = "README.md"
+packages = [{include = "radio online 1"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.0.3"
+requests = "^2.32.3"
+pytube = "^15.0.0"
+pydub = "^0.25.1"
+ffmpeg-python = "^0.2.0"
+yt-dlp = "^2024.9.27"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

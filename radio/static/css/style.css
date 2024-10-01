@@ -1,0 +1,151 @@
+html {
+    margin-top: 50px;
+    font-size: 85.5%;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Ajuste para permitir rolagem */
+    min-height: 100vh; /* Garantir que o corpo ocupe pelo menos 100% da altura da tela */
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+li {
+    background-color: #1e1e1e;
+    margin: 10px 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #61dafb;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a:hover {
+    background-color: #61dafb;
+    color: #121212;
+}
+
+audio {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+form {
+    margin: 20px 0; /* Margem vertical apenas */
+    text-align: center;
+}
+
+button {
+    background-color: #61dafb;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 100px;
+}
+
+input {
+    background-color: #1e1e1e;
+    color: #61dafb;
+    margin-top: 0px;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 8px 12px;  
+    font-size: 1.2em;
+    transition: background-color 0.3s;
+    border: none;
+    width: 100%; /* Ajusta para 100% da largura */
+    max-width: 400px; /* Largura máxima para dispositivos maiores */
+}
+
+button:hover {
+    background-color: #012930;
+    color: #61dafb;
+}
+
+.play-music:hover {
+    background-color: #61dafb;
+    text-transform: uppercase;
+    color: #121212;
+}
+
+#carousel {
+    text-overflow: ellipsis;
+    position: fixed ;
+    overflow: hidden;    
+    bottom: 50px;
+    background-color: rgb(41, 48, 48);
+    font-size: small; /* Ajuste de tamanho da fonte */
+    color: #0ece48;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px; /* Adicionado para espaçamento interno */
+    width: 100%; /* Ajusta a largura do carrossel */
+    max-width: 600px; /* Largura máxima para dispositivos maiores */
+}
+#carousel:hover {
+    display: none;
+}
+
+#trackTitle {
+    text-overflow: ellipsis;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px; /* Ajustado para reduzir espaço */
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em; /* Reduz o tamanho da fonte em telas menores */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Reduz o tamanho da fonte em telas menores */
+    }
+
+    .input {
+        width: calc(100% - 20px); /* Ajusta a largura para caber em telas pequenas */
+    }
+
+    #trackTitle {
+        font-size: 1.2em; /* Reduz o tamanho da fonte do título da música */
+    }
+
+    #carousel {
+        font-size: small; /* Ajusta o tamanho da fonte para responsividade */
+    }
+}
