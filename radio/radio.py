@@ -1,6 +1,6 @@
 from youtube_mp3.youtube import download_youtube_audio
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
-import os
+import os  # Adicione esta linha para importar a biblioteca os
 
 app = Flask(__name__)
 
@@ -18,7 +18,7 @@ def play(filename):
 
 @app.route('/music-files')
 def music_files():
-    files = [f for f in os.listdir('static/mp3') if f.endswith('.mp3')]
+    files = [f for f in os.listdir('radio/static/mp3') if f.endswith('.mp3')]
     files.sort(reverse=True)
     return jsonify(files)
 

@@ -1,9 +1,6 @@
 import yt_dlp
-import os
 
 def download_youtube_audio(video_url):
-    os.makedirs('static/mp3', exist_ok=True)
-    path = 'static/mp3'
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -11,13 +8,15 @@ def download_youtube_audio(video_url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'outtmpl': f'{path}/%(title)s.%(ext)s',  
-        'postprocessor_args': [
-            '-ar', '44100',  
-            '-ac', '2',      
-        ],
+        'outtmpl': 'radio/static/mp3/%(title)s.%(ext)s',
+        'quiet': False,  # Exibe informações detalhadas
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([video_url])
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([video_url])
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
+# Exemplo de uso
+download_youtube_audio('https://www.youtube.com/watch?v=O4irXQhgMqg')
