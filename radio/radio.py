@@ -1,12 +1,12 @@
 from youtube_mp3.youtube import download_youtube_audio
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
-import os  # Adicione esta linha para importar a biblioteca os
+import os  
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    music_files = [f for f in os.listdir('static/mp3') if f.endswith('.mp3')]
+    music_files = [f for f in os.listdir('radio/static/mp3') if f.endswith('.mp3')]
     music_files.sort(reverse=True)
     if not music_files:
         return render_template('index.html', music_files=["Nenhuma música disponível"])
@@ -34,4 +34,5 @@ def download():
     return "URL do YouTube não fornecida", 400
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
